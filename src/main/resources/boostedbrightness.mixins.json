@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "net.boostedbrightness.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MixinDoubleOption"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

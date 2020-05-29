@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "boostedbrightness",
+  "version": "1.0.0",
+
+  "name": "Boosted Brightness",
+  "description": "Allows you to set your brightness beyond default levels.",
+  "authors": [
+    "supersmartypants"
+  ],
+  "contact": {
+    "homepage": "https://github.com/supersmartypants/BoostedBrightness",
+    "sources": "https://github.com/supersmartypants/BoostedBrightness"
+  },
+
+  "license": "MIT",
+  "icon": "assets/boostedbrightness/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.boostedbrightness.BoostedBrightness"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "boostedbrightness.mixins.json",
+      "environment": "client"
+    }
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+
+  "custom": {
+    "modmenu:clientsideOnly": true
+  }
+}
