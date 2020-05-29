@@ -1,5 +1,5 @@
 # Boosted Brightness
-Boosetd Brightness is a simple mod that allows you to set your brightness beyond default levels.
+Boosted Brightness is a simple mod that allows you to set your brightness beyond default levels.
 It makes use of Fabric (not Forge) and is compatible with 1.15.
 
 ## Features
