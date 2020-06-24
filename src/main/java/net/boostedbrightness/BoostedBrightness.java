@@ -3,12 +3,11 @@ package net.boostedbrightness;
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
-import net.minecraft.util.Identifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 public class BoostedBrightness implements ClientModInitializer {
@@ -21,7 +20,7 @@ public class BoostedBrightness implements ClientModInitializer {
     private boolean maxBrightToggled = false;
     private double prevBrightness;
     private boolean prevPressed;
-    private FabricKeyBinding brightnessBind;
+    private KeyBinding brightnessBind;
     
 
 	@Override
@@ -32,16 +31,15 @@ public class BoostedBrightness implements ClientModInitializer {
 
     private void SetupKeybinds() {
 
-        KeyBindingRegistry.INSTANCE.addCategory("Boosted Brightness");
-
-        // Uses fabric's keybinding system to add the max brightness toggle
-        brightnessBind = FabricKeyBinding.Builder.create(
-            new Identifier("boosted-brightness", "brighten"),
+        // Create the max brightness toggle
+        brightnessBind = new KeyBinding(
+            "key.boosted-brightness.brighten",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_B,
-            "Boosted Brightness"
-        ).build();
-        KeyBindingRegistry.INSTANCE.register(brightnessBind);
+            "category.boosted-brightness.title"
+        );
+
+        KeyBindingHelper.registerKeyBinding(brightnessBind);
         
         // Callback that toggles brightness between set value and maximum
         ClientTickCallback.EVENT.register(e -> {
