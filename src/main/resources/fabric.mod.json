@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "boostedbrightness",
-  "version": "1.1.0",
+  "version": "${version}",
 
   "name": "Boosted Brightness",
   "description": "Allows you to set your brightness beyond default levels.",
