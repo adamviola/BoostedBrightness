@@ -22,12 +22,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(DoubleOption.class)
 public class MixinDoubleOption
 {
-	@Shadow
-	@Final
-	@Mutable
+	@Shadow @Final @Mutable
 	private BiFunction<GameOptions, DoubleOption, Text> displayStringGetter;
+
 	@Shadow
 	private double min;
+
 	@Shadow
 	private double max;
 
