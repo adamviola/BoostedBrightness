@@ -1,8 +1,6 @@
 package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -29,6 +27,8 @@ public class MixinDoubleOption
 	@Mutable
 	private BiFunction<GameOptions, DoubleOption, Text> displayStringGetter;
 	@Shadow
+	private double min;
+	@Shadow
 	private double max;
 
 	@Inject(at = @At("RETURN"), method = "<init>")
@@ -36,9 +36,10 @@ public class MixinDoubleOption
 					  BiConsumer<GameOptions, Double> setter, BiFunction<GameOptions, DoubleOption, Text> displayStringGetter,
 					  CallbackInfo info)
 	{
-		// Modifies the max and displayStringGetter of the brightness slider
+		// Modifies the max, min, and displayStringGetter of the brightness slider
 		if (key.equals("options.gamma"))
 		{
+			this.min = BoostedBrightness.MIN_BRIGHTNESS;
 			this.max = BoostedBrightness.MAX_BRIGHTNESS;
 			this.displayStringGetter = this::displayStringGetter;
 		}
@@ -47,10 +48,16 @@ public class MixinDoubleOption
 	private Text displayStringGetter(GameOptions gameOptions, DoubleOption doubleOption)
 	{
 		MutableText text = new TranslatableText("options.gamma").append(": ");
-		return gameOptions.gamma == 0.0 ?
-			   text.append(new TranslatableText("options.gamma.min")) :
-			   gameOptions.gamma == 1.0 ?
-			   text.append(new TranslatableText("options.gamma.max")) :
-			   text.append(Math.round(gameOptions.gamma * 100) + "%");
+		double gamma = gameOptions.gamma;
+
+		if (Math.abs(gamma) <= 0.025) {
+			text.append(new TranslatableText("options.gamma.min"));
+		} else if (Math.abs(gamma - 1) <= 0.025) {
+			text.append(new TranslatableText("options.gamma.max"));
+		} else {
+			text.append(Math.round(gameOptions.gamma * 100) + "%");
+		}
+
+		return text;		   
 	}
 }

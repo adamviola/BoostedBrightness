@@ -16,6 +16,7 @@ public class BoostedBrightness implements ClientModInitializer
 		"category.boosted-brightness.title"
 	);
 
+	public final static double MIN_BRIGHTNESS = -1.5D;
 	public final static double MAX_BRIGHTNESS = 12.0D;
 
 
