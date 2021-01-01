@@ -6,11 +6,11 @@
   "name": "Boosted Brightness",
   "description": "Allows you to set your brightness beyond default levels.",
   "authors": [
-    "supersmartypants"
+    "adamviola"
   ],
   "contact": {
-    "homepage": "https://github.com/supersmartypants/BoostedBrightness",
-    "sources": "https://github.com/supersmartypants/BoostedBrightness"
+    "homepage": "https://github.com/adamviola/BoostedBrightness",
+    "sources": "https://github.com/adamviola/BoostedBrightness"
   },
 
   "license": "MIT",
