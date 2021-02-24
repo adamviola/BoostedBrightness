@@ -1,4 +1,6 @@
 {
     "key.boosted-brightness.brighten": "Переключить максимальную яркость",
-    "category.boosted-brightness.title": "Повышенная яркость"
+    "key.boosted-brightness.raise": "Увеличить яркость на 50",
+    "key.boosted-brightness.lower": "Уменьшить яркость на 50",
+    "category.boosted-brightness.title": "Boosted Brightness"
 }
