@@ -1,6 +1,6 @@
 {
     "key.boosted-brightness.brighten": "Maksimum Parlaklığı Aç/Kapa",
-    "key.boosted-brightness.raise": "Parlaklığı 50 değer arttır",
-    "key.boosted-brightness.lower": "Parlaklıgı 50 değer düşür",
+    "key.boosted-brightness.raise": "Parlaklığı arttır",
+    "key.boosted-brightness.lower": "Parlaklıgı düşür",
     "category.boosted-brightness.title": "Yükseltilmiş Parlaklık"
 }
