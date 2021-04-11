@@ -3,5 +3,9 @@
     "key.boosted-brightness.raise": "Raise Brightness",
     "key.boosted-brightness.lower": "Lower Brightness",
     "category.boosted-brightness.title": "Boosted Brightness",
-    "overlay.boosted-brightness.set": "Set gamma to"
+    "overlay.boosted-brightness.toggled": "Toggled brightness to %s%%",
+    "overlay.boosted-brightness.raised": "Raised brightness to %s%%",
+    "overlay.boosted-brightness.lowered": "Lowered brightness to %s%%",
+    "overlay.boosted-brightness.raised_toggled": "Raised toggled brightness to %s%%",
+    "overlay.boosted-brightness.lowered_toggled": "Lowered toggled brightness to %s%%"
 }

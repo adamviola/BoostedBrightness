@@ -18,15 +18,17 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-import static java.lang.Double.POSITIVE_INFINITY;
 import static net.minecraft.util.Formatting.GREEN;
 
 public class BoostedBrightness implements ClientModInitializer {
     private static final Gson GSON = new Gson();
-    public static double minBrightness = -1.5;
+
+    public static double minBrightness = -1.0;
     public static double maxBrightness = 12.0;
-    private static double prevGamma = POSITIVE_INFINITY; // will clamped to max brightness
-    private static double step = 0.5;
+    private static double step = 0.1;
+
+    public static boolean toggled = false;
+    public static double toggledBrightness = maxBrightness;
 
     private static final KeyBinding BRIGHTEN_BIND = new KeyBinding(
         "key.boosted-brightness.brighten",
@@ -54,6 +56,7 @@ public class BoostedBrightness implements ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(BRIGHTEN_BIND);
         KeyBindingHelper.registerKeyBinding(RAISE_BIND);
         KeyBindingHelper.registerKeyBinding(LOWER_BIND);
+
         loadConfig();
         ClientTickEvents.END_CLIENT_TICK.register(this::onEndTick);
     }
@@ -64,7 +67,7 @@ public class BoostedBrightness implements ClientModInitializer {
             asDouble(config.get("min"), min -> minBrightness = min);
             asDouble(config.get("max"), max -> maxBrightness = max);
             asDouble(config.get("step"), step -> BoostedBrightness.step = step);
-            asDouble(config.get("previous"), prev -> prevGamma = prev);
+            asDouble(config.get("toggledBrightness"), brightness -> toggledBrightness = brightness);
         }
         catch (IOException | JsonSyntaxException ex) {
             logException(ex, "failed to load config");
@@ -76,7 +79,7 @@ public class BoostedBrightness implements ClientModInitializer {
         config.addProperty("min", minBrightness);
         config.addProperty("max", maxBrightness);
         config.addProperty("step", step);
-        config.addProperty("previous", prevGamma);
+        config.addProperty("toggledBrightness", toggledBrightness);
         try {
             Files.write(getConfigPath(), GSON.toJson(config).getBytes());
         }
@@ -96,28 +99,41 @@ public class BoostedBrightness implements ClientModInitializer {
     }
 
     private void onEndTick(MinecraftClient client) {
-        boolean show = false;
+        boolean wasToggled = toggled;
         while (BRIGHTEN_BIND.wasPressed()) {
-            double temp = client.options.gamma;
-            client.options.gamma = MathHelper.clamp(prevGamma, minBrightness, maxBrightness);
-            prevGamma = temp;
-            show = true;
+            toggled = !toggled;
         }
-        double gamma = client.options.gamma;
+
+        if (wasToggled != toggled) {
+            client.inGameHud.setOverlayMessage(
+                new TranslatableText("overlay.boosted-brightness.toggled",
+                new Object[]{Math.round((toggled ? toggledBrightness : client.options.gamma) * 100)}
+            ).styled(s -> s.withColor(GREEN)), false);
+        }
+
+        double offset = 0;
         while (RAISE_BIND.wasPressed()) {
-            gamma += step;
+            offset += step;
         }
         while (LOWER_BIND.wasPressed()) {
-            gamma -= step;
+            offset -= step;
         }
-        gamma = MathHelper.clamp(gamma, minBrightness, maxBrightness);
-        if (client.options.gamma != gamma) {
-            client.options.gamma = gamma;
-            show = true;
-        }
-        if (show) {
-            client.inGameHud.setOverlayMessage(new TranslatableText("overlay.boosted-brightness.set")
-                .append(String.format(" %d%%", Math.round(gamma * 100))).styled(s -> s.withColor(GREEN)), false);
+        
+        if (offset != 0) {
+            String key = "overlay.boosted-brightness." + (offset > 0 ? "raised" : "lowered");
+
+            double gamma;
+            if (toggled) {
+                gamma = MathHelper.clamp(toggledBrightness + offset, minBrightness, maxBrightness);
+                toggledBrightness = gamma;
+                key += "_toggled";
+            } else {
+                gamma = MathHelper.clamp(client.options.gamma + offset, minBrightness, maxBrightness);
+                client.options.gamma = gamma;
+            }
+
+            client.inGameHud.setOverlayMessage(new TranslatableText(key, new Object[]{Math.round(gamma * 100)})
+                .styled(s -> s.withColor(GREEN)), false);
         }
     }
 
