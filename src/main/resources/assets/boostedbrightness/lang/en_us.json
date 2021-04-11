@@ -1,6 +1,7 @@
 {
     "key.boosted-brightness.brighten": "Toggle Max Brightness",
-    "key.boosted-brightness.raise": "Raise Brightness by 50",
-    "key.boosted-brightness.lower": "Lower Brightness by 50",
-    "category.boosted-brightness.title": "Boosted Brightness"
+    "key.boosted-brightness.raise": "Raise Brightness",
+    "key.boosted-brightness.lower": "Lower Brightness",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.set": "Set gamma to"
 }
