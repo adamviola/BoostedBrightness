@@ -2,6 +2,7 @@ package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.options.GameOptions;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +19,12 @@ import static net.boostedbrightness.BoostedBrightness.saveConfig;
 
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+
+    private final long SAVE_INTERVAL = 10000;
+
     @Shadow
     private GameOptions options;
+    private long lastSaveTime = 0;
 
     @Inject(at = @At("HEAD"), method = "close")
     private void close(CallbackInfo info) {
@@ -30,6 +35,11 @@ public class MixinMinecraftClient {
     // manipulate the sodium mods custom options screen right when it gets opened but before it gets displayed
     @Inject(at = @At("HEAD"), method = "openScreen")
     private void openScreen(Screen screen, CallbackInfo info) {
+        if (screen instanceof GameMenuScreen && System.currentTimeMillis() - lastSaveTime > SAVE_INTERVAL) {
+            saveConfig();
+            lastSaveTime = System.currentTimeMillis();
+        }
+
         if (screen != null && screen.getClass().getSimpleName().equals("SodiumOptionsGUI")) {
             try {
                 // screen -> pages -> 1st page (general) -> groups -> 1st group -> options -> 2nd option (gamma) -> control (slider) -> overwrite min and max

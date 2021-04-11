@@ -1,12 +1,7 @@
 package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.DoubleOption;
-import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.render.LightmapTextureManager;
 
 import org.spongepowered.asm.mixin.Final;
