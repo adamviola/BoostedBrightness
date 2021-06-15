@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.6-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -10,13 +10,24 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+repositories {
+    maven {
+        url "https://maven.terraformersmc.com/releases/"
+    }
+}
+
 dependencies {
-	minecraft "com.mojang:minecraft:1.16.2"
-	mappings "net.fabricmc:yarn:1.16.2+build.43:v2"
-	modImplementation "net.fabricmc:fabric-loader:0.9.2+build.206"
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	//Fabric api
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.19.0+build.398-1.16"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// ModMenu
+	modImplementation "com.terraformersmc:modmenu:1.16.9"
+
+	compileOnly 'com.google.code.findbugs:jsr305:+'
 }
 
 processResources {

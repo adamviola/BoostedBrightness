@@ -19,14 +19,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static java.lang.Math.abs;
-
 @Mixin(DoubleOption.class)
 public class MixinDoubleOption {
     @Shadow
     @Final
     @Mutable
     private BiFunction<GameOptions, DoubleOption, Text> displayStringGetter;
+
+    @Shadow
+    @Final
+    @Mutable
+    private BiConsumer<GameOptions, Double> setter;
 
     @Shadow
     @Mutable
@@ -37,15 +40,21 @@ public class MixinDoubleOption {
         if (key.equals("options.gamma")) {
             this.min = BoostedBrightness.minBrightness;
             this.max = BoostedBrightness.maxBrightness;
+            this.setter = this::setter;
             this.displayStringGetter = this::displayStringGetter;
         }
     }
 
+    private void setter(GameOptions gameOptions, Double gamma) {
+        gamma = Math.round(20 * gamma) / 20.0D;
+        gameOptions.gamma = gamma;
+        BoostedBrightness.brightnesses.set(BoostedBrightness.selectedBrightness, gamma);
+    }
+
     private Text displayStringGetter(GameOptions gameOptions, DoubleOption doubleOption) {
-        double threshold = 0.025; // TODO find actual value (half of the gamma change for a one pixel change on the slider)
         return new TranslatableText("options.gamma").append(": ").append(
-            abs(gameOptions.gamma) < threshold     ? new TranslatableText("options.gamma.min") :
-            abs(gameOptions.gamma - 1) < threshold ? new TranslatableText("options.gamma.max") :
-                                                      new LiteralText(Math.round(gameOptions.gamma * 100) + "%"));
+            gameOptions.gamma == 0 ? new TranslatableText("options.gamma.min") :
+            gameOptions.gamma == 1 ? new TranslatableText("options.gamma.max") :
+                                     new LiteralText(Math.round(gameOptions.gamma * 100) + "%"));
     }
 }
