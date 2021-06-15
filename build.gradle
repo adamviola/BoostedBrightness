@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
+	id 'fabric-loom' version '0.8-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -25,7 +25,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// ModMenu
-	modImplementation "com.terraformersmc:modmenu:1.16.9"
+	modImplementation "com.terraformersmc:modmenu:2.0.2"
 
 	compileOnly 'com.google.code.findbugs:jsr305:+'
 }
