@@ -8,7 +8,8 @@ import java.util.Optional;
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -75,15 +76,15 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       return super.getScrollbarPositionX() + 32;
    }
 
-   public Optional<AbstractButtonWidget> getHoveredButton(double mouseX, double mouseY) {
+   public Optional<ClickableWidget> getHoveredButton(double mouseX, double mouseY) {
       Iterator<BrightnessEntry> var5 = this.children().iterator();
 
       while(var5.hasNext()) {
          BrightnessListWidget.BrightnessEntry buttonEntry = var5.next();
-         Iterator<AbstractButtonWidget> var7 = buttonEntry.buttons.iterator();
+         Iterator<ClickableWidget> var7 = buttonEntry.buttons.iterator();
 
          while(var7.hasNext()) {
-            AbstractButtonWidget abstractButtonWidget = var7.next();
+            ClickableWidget abstractButtonWidget = var7.next();
             if (abstractButtonWidget.isMouseOver(mouseX, mouseY)) {
                return Optional.of(abstractButtonWidget);
             }
@@ -98,19 +99,19 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
    }
 
    public static class BrightnessEntry extends ElementListWidget.Entry<BrightnessListWidget.BrightnessEntry> {
-      private final List<AbstractButtonWidget> buttons;
+      private final List<ClickableWidget> buttons;
       private final BrightnessListWidget listWidget;
 
       private int index;
 
-      private BrightnessEntry(List<AbstractButtonWidget> buttons, int index, BrightnessListWidget listWidget) {
+      private BrightnessEntry(List<ClickableWidget> buttons, int index, BrightnessListWidget listWidget) {
          this.buttons = buttons;
          this.listWidget = listWidget;
          this.index = index;
       }
 
       public static BrightnessListWidget.BrightnessEntry create(int index, int width, BrightnessListWidget listWidget) {
-         ArrayList<AbstractButtonWidget> widgets = new ArrayList<>();
+         ArrayList<ClickableWidget> widgets = new ArrayList<>();
          
          if (index >= 0) {
             widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.brightnesses.get(index))));
@@ -125,7 +126,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       }
 
       public void updateValue() {
-         for (AbstractButtonWidget button : buttons)
+         for (ClickableWidget button : buttons)
             if (button instanceof BrightnessSliderWidget) 
                ((BrightnessSliderWidget) button).updateValue();
       }
@@ -144,7 +145,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
          boolean mouseOnButton = false;
 
-         for (AbstractButtonWidget button : this.buttons) {
+         for (ClickableWidget button : this.buttons) {
             if (button.isMouseOver(mouseX, mouseY)) {
                mouseOnButton = true;
                break;
@@ -159,6 +160,10 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       }
 
       public List<? extends Element> children() {
+         return this.buttons;
+      }
+
+      public List<? extends Selectable> method_37025() {
          return this.buttons;
       }
    }

@@ -2,11 +2,14 @@ package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.client.options.DoubleOption;
-import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.GameOptions;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -32,11 +35,16 @@ public class MixinDoubleOption {
     private BiConsumer<GameOptions, Double> setter;
 
     @Shadow
+    @Final
     @Mutable
-    private double min, max;
+    protected double min;
+
+    @Shadow
+    @Mutable
+    protected double max;
 
     @Inject(at = @At("RETURN"), method = "<init>")
-    private void init(String key, double min, double max, float step, Function<GameOptions, Double> getter, BiConsumer<GameOptions, Double> setter, BiFunction<GameOptions, DoubleOption, Text> displayStringGetter, CallbackInfo info) {
+    private void init(String key, double min, double max, float step, Function<GameOptions, Double> getter, BiConsumer<GameOptions, Double> setter, BiFunction<GameOptions, DoubleOption, Text> displayStringGetter, Function<MinecraftClient, List<OrderedText>> tooltipsGetter, CallbackInfo info) {
         if (key.equals("options.gamma")) {
             this.min = BoostedBrightness.minBrightness;
             this.max = BoostedBrightness.maxBrightness;

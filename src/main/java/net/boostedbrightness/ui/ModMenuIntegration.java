@@ -7,7 +7,7 @@ import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.screen.options.GameOptionsScreen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
@@ -19,23 +19,19 @@ public class ModMenuIntegration implements ModMenuApi {
 	}
 
     public class ModMenuOptionsScreen extends GameOptionsScreen {
-        private Screen previous;
         private BrightnessListWidget list;
 
-        public ModMenuOptionsScreen(Screen previous) {
-            super(previous, MinecraftClient.getInstance().options, new TranslatableText("options.boosted-brightness.title"));
-            this.previous = previous;
+        public ModMenuOptionsScreen(Screen parent) {
+            super(parent, MinecraftClient.getInstance().options, new TranslatableText("options.boosted-brightness.title"));
         }
     
         protected void init() {
 
             this.list = new BrightnessListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
+            this.addSelectableChild(this.list);
 
-            this.children.add(this.list);
-
-            this.addButton(new ButtonWidget(this.width / 2 - 120, this.height - 27, 240, 20, ScreenTexts.DONE, (button) -> {
-                BoostedBrightness.saveConfig();
-                this.client.openScreen(this.previous);
+            this.addDrawableChild(new ButtonWidget(this.width / 2 - 120, this.height - 27, 240, 20, ScreenTexts.DONE, (button) -> {
+                this.client.openScreen(this.parent);
             }));
         }
     
@@ -48,6 +44,7 @@ public class ModMenuIntegration implements ModMenuApi {
     
         public void removed() {
             BoostedBrightness.saveConfig();
+            super.removed();
         }
     }
 }

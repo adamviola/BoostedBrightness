@@ -37,7 +37,7 @@
     "fabric": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
-    "minecraft": ">=1.16.2"
+    "minecraft": ">=1.17"
   },
   "suggests": {
     "flamingo": "*"
