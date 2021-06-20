@@ -29,8 +29,9 @@ public class BoostedBrightness implements ClientModInitializer {
     public static double maxBrightness = 12.0;
     private static double step = 0.1;
 
-    public static int selectedBrightness = 0;
     public static ArrayList<Double> brightnesses;
+    private static int brightnessIndex = 0;
+    private static int lastBrightnessIndex = 0;
 
     private static final KeyBinding NEXT_BIND = new KeyBinding(
         "key.boosted-brightness.next",
@@ -55,12 +56,15 @@ public class BoostedBrightness implements ClientModInitializer {
 
     private static final KeyBinding[] SELECT_BINDS = new KeyBinding[MAX_BRIGHTNESSES];
 
+    public static MinecraftClient client;
+
     @Override
     public void onInitializeClient() {
         KeyBindingHelper.registerKeyBinding(NEXT_BIND);
         KeyBindingHelper.registerKeyBinding(RAISE_BIND);
         KeyBindingHelper.registerKeyBinding(LOWER_BIND);
 
+        // Register binds for each brightness setting
         for (int i = 0; i < MAX_BRIGHTNESSES; i++) {
             SELECT_BINDS[i] = new KeyBinding(
                 "key.boosted-brightness.select" + (i + 1),
@@ -72,8 +76,42 @@ public class BoostedBrightness implements ClientModInitializer {
             KeyBindingHelper.registerKeyBinding(SELECT_BINDS[i]);
         }
 
-        loadConfig();
         ClientTickEvents.END_CLIENT_TICK.register(this::onEndTick);
+        loadConfig();
+        client = MinecraftClient.getInstance();
+    }
+
+    public static int numBrightnesses() {
+        return brightnesses.size();
+    }
+
+    public static int getBrightnessIndex() {
+        return brightnessIndex;
+    }
+
+    public static void setBrightnessIndex(int index) {
+        brightnessIndex = index;
+        client.options.gamma = getBrightness();
+    }
+
+    public static double getBrightness() {
+        return brightnesses.get(brightnessIndex);
+    }
+
+    public static double getBrightness(int index) {
+        return brightnesses.get(index);
+    }
+
+    public static void changeBrightness(double brightness) {
+        brightnesses.set(getBrightnessIndex(), brightness);
+        client.options.gamma = getBrightness();
+    } 
+
+    public static void changeBrightness(int index, double brightness) {
+        if (index == brightnessIndex)
+            changeBrightness(brightness);
+        else
+            brightnesses.set(index, brightness);
     }
 
     private void loadConfig() {
@@ -88,19 +126,27 @@ public class BoostedBrightness implements ClientModInitializer {
                 asDouble(config.get(String.valueOf(i)), brightness -> brightnesses.add(brightness));
             }
 
-            asInt(config.get("selected"), selected -> selectedBrightness = selected - 1);
-            selectedBrightness = Math.max(0, Math.min(brightnesses.size() - 1, selectedBrightness));
+            asInt(config.get("selected"), selected -> brightnessIndex = selected - 1);
+            brightnessIndex = Math.max(0, Math.min(numBrightnesses() - 1, brightnessIndex));
+            
+            if (config.has("last")) {
+                asInt(config.get("last"), last -> lastBrightnessIndex = last - 1);
+                lastBrightnessIndex = Math.max(0, Math.min(numBrightnesses() - 1, lastBrightnessIndex));
+            } else {
+                lastBrightnessIndex = 0;
+            }
         }
         catch (IOException | JsonSyntaxException ex) {
             logException(ex, "Failed to load BoostedBrightness config");
         }
 
+        // If the config file fails to properly load, default to 2 brightness levels
         if (brightnesses == null || brightnesses.size() < 2) {
             brightnesses = new ArrayList<>();
             brightnesses.add(1.0);
             brightnesses.add(maxBrightness);
-
-            selectedBrightness = 0;
+            brightnessIndex = 0;
+            lastBrightnessIndex = 0;
         }
     }
 
@@ -109,7 +155,9 @@ public class BoostedBrightness implements ClientModInitializer {
         config.addProperty("min", minBrightness);
         config.addProperty("max", maxBrightness);
         config.addProperty("step", step);
-        config.addProperty("selected", selectedBrightness + 1);
+        // Store selectedBrightness + 1 for human readability
+        config.addProperty("selected", brightnessIndex + 1);
+        config.addProperty("last", lastBrightnessIndex + 1);
 
         for (int i = 0; i < brightnesses.size(); i++) {
             config.addProperty(String.valueOf(i + 1), brightnesses.get(i));
@@ -144,8 +192,8 @@ public class BoostedBrightness implements ClientModInitializer {
             new TranslatableText(
                 "overlay.boosted-brightness.change",
                 new Object[]{
-                    selectedBrightness + 1,
-                    Math.round(brightnesses.get(selectedBrightness) * 100)
+                    getBrightnessIndex() + 1,
+                    Math.round(getBrightness() * 100)
                 }
             ).styled(s -> s.withColor(GREEN)),
             false
@@ -155,18 +203,17 @@ public class BoostedBrightness implements ClientModInitializer {
     private void onEndTick(MinecraftClient client) {
         // Check next brightness keybind
         while (NEXT_BIND.wasPressed()) {
-            selectedBrightness = (selectedBrightness + 1) % brightnesses.size();
-            client.options.gamma = brightnesses.get(selectedBrightness);
-
+            lastBrightnessIndex = getBrightnessIndex();
+            setBrightnessIndex((lastBrightnessIndex + 1) % numBrightnesses());
             showOverlay(client);
         }
-
+ 
         // Check set brightness keybind
-        for (int i = 0; i < brightnesses.size(); i++) {
-            if (SELECT_BINDS[i].isPressed()) {
-                selectedBrightness = i;
-                client.options.gamma = brightnesses.get(selectedBrightness);
-
+        for (int i = 0; i < numBrightnesses(); i++) {
+            while (SELECT_BINDS[i].wasPressed()) {
+                int nextBrightnessIndex = (i != brightnessIndex) ? i : lastBrightnessIndex;
+                lastBrightnessIndex = getBrightnessIndex();
+                setBrightnessIndex(nextBrightnessIndex);
                 showOverlay(client);
             }
         }
@@ -182,10 +229,8 @@ public class BoostedBrightness implements ClientModInitializer {
         
         // Raise/lower selected brightness
         if (offset != 0) {
-            double brightness = Math.max(minBrightness, Math.min(maxBrightness, client.options.gamma + offset));
-            brightnesses.set(selectedBrightness, brightness);
-            client.options.gamma = brightness;
-
+            double brightness = Math.max(minBrightness, Math.min(maxBrightness, getBrightness() + offset));
+            changeBrightness(brightness);
             showOverlay(client);
         }
     }

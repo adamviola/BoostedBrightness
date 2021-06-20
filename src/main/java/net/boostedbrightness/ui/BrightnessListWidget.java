@@ -21,15 +21,15 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       super(client, i, j, k, l, m);
       this.setRenderSelection(true);
 
-      if (client.options.gamma != BoostedBrightness.brightnesses.get(BoostedBrightness.selectedBrightness)) {
-         BoostedBrightness.brightnesses.set(BoostedBrightness.selectedBrightness, client.options.gamma);
+      if (client.options.gamma != BoostedBrightness.getBrightness()) {
+         BoostedBrightness.changeBrightness(client.options.gamma);
       }
 
-      for (int idx = 0; idx < BoostedBrightness.brightnesses.size(); idx++) {
+      for (int idx = 0; idx < BoostedBrightness.numBrightnesses(); idx++) {
          this.addEntry(BrightnessListWidget.BrightnessEntry.create(idx, this.width, this));
       }
 
-      if (BoostedBrightness.brightnesses.size() < BoostedBrightness.MAX_BRIGHTNESSES) {
+      if (BoostedBrightness.numBrightnesses() < BoostedBrightness.MAX_BRIGHTNESSES) {
          this.addEntry(BrightnessListWidget.BrightnessEntry.create(-1, this.width, this));
       }
    }
@@ -38,7 +38,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       List<BrightnessEntry> entries = this.children();
 
       BoostedBrightness.brightnesses.add(1.0);
-      int size = BoostedBrightness.brightnesses.size();
+      int size = BoostedBrightness.numBrightnesses();
 
       entries.add(size - 1, BrightnessEntry.create(size - 1, this.width, this));
 
@@ -63,8 +63,8 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       if (oldSize == BoostedBrightness.MAX_BRIGHTNESSES) {
          entries.add(BrightnessEntry.create(-1, this.width, this));
       }
-      if (BoostedBrightness.selectedBrightness == BoostedBrightness.brightnesses.size()) {
-         BoostedBrightness.selectedBrightness -= 1;
+      if (BoostedBrightness.getBrightnessIndex() == BoostedBrightness.numBrightnesses()) {
+         BoostedBrightness.setBrightnessIndex(BoostedBrightness.getBrightnessIndex() - 1);
       }
    }
 
@@ -95,7 +95,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
    }
 
    protected boolean isSelectedEntry(int index) {
-      return BoostedBrightness.selectedBrightness == index;
+      return BoostedBrightness.getBrightnessIndex() == index;
    }
 
    public static class BrightnessEntry extends ElementListWidget.Entry<BrightnessListWidget.BrightnessEntry> {
@@ -114,7 +114,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
          ArrayList<ClickableWidget> widgets = new ArrayList<>();
          
          if (index >= 0) {
-            widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.brightnesses.get(index))));
+            widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.getBrightness(index))));
             
             if (index >= 2)
                widgets.add(new ButtonWidget(width / 2 + 120 + 5, 0, 20, 20, new LiteralText("X"), (buttonWidget) -> { listWidget.removeBrightness(index); }));
@@ -152,8 +152,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
             }
          }
          if (!mouseOnButton && this.index >= 0) {
-            BoostedBrightness.selectedBrightness = this.index;
-            listWidget.client.options.gamma = BoostedBrightness.brightnesses.get(this.index);
+            BoostedBrightness.setBrightnessIndex(this.index);
          }
 
          return super.mouseClicked(mouseX, mouseY, mouseButton);

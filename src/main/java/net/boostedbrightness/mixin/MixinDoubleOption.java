@@ -53,10 +53,10 @@ public class MixinDoubleOption {
         }
     }
 
-    private void setter(GameOptions gameOptions, Double gamma) {
-        gamma = Math.round(20 * gamma) / 20.0D;
-        gameOptions.gamma = gamma;
-        BoostedBrightness.brightnesses.set(BoostedBrightness.selectedBrightness, gamma);
+    private void setter(GameOptions gameOptions, Double brightness) {
+        // Round to nearest 0.05
+        brightness = Math.round(20 * brightness) / 20.0D;
+        BoostedBrightness.changeBrightness(brightness);
     }
 
     private Text displayStringGetter(GameOptions gameOptions, DoubleOption doubleOption) {

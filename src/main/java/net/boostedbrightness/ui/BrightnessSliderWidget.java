@@ -1,7 +1,6 @@
 package net.boostedbrightness.ui;
 
 import net.boostedbrightness.BoostedBrightness;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -33,11 +32,7 @@ public class BrightnessSliderWidget extends SliderWidget {
 
    @Override
    protected void applyValue() {
-      BoostedBrightness.brightnesses.set(this.index, brightness());
-      if (this.index == BoostedBrightness.selectedBrightness) {
-         MinecraftClient client = MinecraftClient.getInstance();
-         client.options.gamma = brightness();
-      }
+      BoostedBrightness.changeBrightness(this.index, brightness());
    }
 
    @Override
