@@ -1,4 +1,13 @@
 {
-    "key.boosted-brightness.brighten": "Переключить максимальную яркость",
-    "category.boosted-brightness.title": "Повышенная яркость"
+    "key.boosted-brightness.next": "Переключить яркость",
+    "key.boosted-brightness.raise": "Повысить яркость",
+    "key.boosted-brightness.lower": "Понизить яркость",
+    "key.boosted-brightness.select1": "Выбрать яркость 1",
+    "key.boosted-brightness.select2": "Выбрать яркость 2",
+    "key.boosted-brightness.select3": "Выбрать яркость 3",
+    "key.boosted-brightness.select4": "Выбрать яркость 4",
+    "key.boosted-brightness.select5": "Выбрать яркость 5",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "Яркость %s: %s%%",
+    "options.boosted-brightness.title": "Настройки Boosted Brightness"
 }

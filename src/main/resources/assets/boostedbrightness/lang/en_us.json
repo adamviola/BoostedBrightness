@@ -1,6 +1,13 @@
 {
-    "key.boosted-brightness.brighten": "Toggle Max Brightness",
-    "key.boosted-brightness.raise": "Raise Brightness by 50",
-    "key.boosted-brightness.lower": "Lower Brightness by 50",
-    "category.boosted-brightness.title": "Boosted Brightness"
+    "key.boosted-brightness.next": "Select Next Brightness",
+    "key.boosted-brightness.raise": "Raise Brightness",
+    "key.boosted-brightness.lower": "Lower Brightness",
+    "key.boosted-brightness.select1": "Select Brightness 1",
+    "key.boosted-brightness.select2": "Select Brightness 2",
+    "key.boosted-brightness.select3": "Select Brightness 3",
+    "key.boosted-brightness.select4": "Select Brightness 4",
+    "key.boosted-brightness.select5": "Select Brightness 5",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "Brightness %s: %s%%",
+    "options.boosted-brightness.title": "Boosted Brightness Options"
 }

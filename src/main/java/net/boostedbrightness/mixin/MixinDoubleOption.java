@@ -1,12 +1,15 @@
 package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.client.options.DoubleOption;
-import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.GameOptions;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -20,44 +23,46 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DoubleOption.class)
-public class MixinDoubleOption
-{
-	@Shadow @Final @Mutable
-	private BiFunction<GameOptions, DoubleOption, Text> displayStringGetter;
+public class MixinDoubleOption {
+    @Shadow
+    @Final
+    @Mutable
+    private BiFunction<GameOptions, DoubleOption, Text> displayStringGetter;
 
-	@Shadow
-	private double min;
+    @Shadow
+    @Final
+    @Mutable
+    private BiConsumer<GameOptions, Double> setter;
 
-	@Shadow
-	private double max;
+    @Shadow
+    @Final
+    @Mutable
+    protected double min;
 
-	@Inject(at = @At("RETURN"), method = "<init>")
-	private void init(String key, double min, double max, float step, Function<GameOptions, Double> getter,
-					  BiConsumer<GameOptions, Double> setter, BiFunction<GameOptions, DoubleOption, Text> displayStringGetter,
-					  CallbackInfo info)
-	{
-		// Modifies the max, min, and displayStringGetter of the brightness slider
-		if (key.equals("options.gamma"))
-		{
-			this.min = BoostedBrightness.MIN_BRIGHTNESS;
-			this.max = BoostedBrightness.MAX_BRIGHTNESS;
-			this.displayStringGetter = this::displayStringGetter;
-		}
-	}
+    @Shadow
+    @Mutable
+    protected double max;
 
-	private Text displayStringGetter(GameOptions gameOptions, DoubleOption doubleOption)
-	{
-		MutableText text = new TranslatableText("options.gamma").append(": ");
-		double gamma = gameOptions.gamma;
+    @Inject(at = @At("RETURN"), method = "<init>")
+    private void init(String key, double min, double max, float step, Function<GameOptions, Double> getter, BiConsumer<GameOptions, Double> setter, BiFunction<GameOptions, DoubleOption, Text> displayStringGetter, Function<MinecraftClient, List<OrderedText>> tooltipsGetter, CallbackInfo info) {
+        if (key.equals("options.gamma")) {
+            this.min = BoostedBrightness.minBrightness;
+            this.max = BoostedBrightness.maxBrightness;
+            this.setter = this::setter;
+            this.displayStringGetter = this::displayStringGetter;
+        }
+    }
 
-		if (Math.abs(gamma) <= 0.025) {
-			text.append(new TranslatableText("options.gamma.min"));
-		} else if (Math.abs(gamma - 1) <= 0.025) {
-			text.append(new TranslatableText("options.gamma.max"));
-		} else {
-			text.append(Math.round(gameOptions.gamma * 100) + "%");
-		}
+    private void setter(GameOptions gameOptions, Double brightness) {
+        // Round to nearest 0.05
+        brightness = Math.round(20 * brightness) / 20.0D;
+        BoostedBrightness.changeBrightness(brightness);
+    }
 
-		return text;		   
-	}
+    private Text displayStringGetter(GameOptions gameOptions, DoubleOption doubleOption) {
+        return new TranslatableText("options.gamma").append(": ").append(
+            gameOptions.gamma == 0 ? new TranslatableText("options.gamma.min") :
+            gameOptions.gamma == 1 ? new TranslatableText("options.gamma.max") :
+                                     new LiteralText(Math.round(gameOptions.gamma * 100) + "%"));
+    }
 }
