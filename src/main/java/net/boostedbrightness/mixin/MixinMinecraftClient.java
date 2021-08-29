@@ -1,6 +1,7 @@
 package net.boostedbrightness.mixin;
 
 import net.boostedbrightness.BoostedBrightness;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -45,7 +46,7 @@ public class MixinMinecraftClient {
                 // screen -> pages -> 1st page (general) -> groups -> 1st group -> options -> 2nd option (gamma) -> control (slider) -> overwrite min and max
                 List<?> optionPages = (List<?>) get(screen, "me.jellysquid.mods.sodium.client.gui.SodiumOptionsGUI", "pages");
                 List<?> optionGroups = (List<?>) get(optionPages.get(0), "me.jellysquid.mods.sodium.client.gui.options.OptionPage", "groups");
-                List<?> options = (List<?>) get(optionGroups.get(0), "me.jellysquid.mods.sodium.client.gui.options.OptionGroup", "options");
+                List<?> options = (List<?>) get(FabricLoader.getInstance().isModLoaded("sodium-extra") ? optionGroups.get(1) : optionGroups.get(0), "me.jellysquid.mods.sodium.client.gui.options.OptionGroup", "options"); 
                 Object sliderControl = get(options.get(1), "me.jellysquid.mods.sodium.client.gui.options.OptionImpl", "control");
                 Class<?> sliderControlClass = Class.forName("me.jellysquid.mods.sodium.client.gui.options.control.SliderControl");
                 setInt(sliderControl, sliderControlClass, "min", (int) (BoostedBrightness.minBrightness * 100));
