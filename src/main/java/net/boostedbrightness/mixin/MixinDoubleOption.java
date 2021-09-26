@@ -54,8 +54,8 @@ public class MixinDoubleOption {
     }
 
     private void setter(GameOptions gameOptions, Double brightness) {
-        // Round to nearest 0.05
-        brightness = Math.round(20 * brightness) / 20.0D;
+        // Round to nearest interval
+        brightness = Math.round(brightness / BoostedBrightness.brightnessSliderInterval) * BoostedBrightness.brightnessSliderInterval;
         BoostedBrightness.changeBrightness(brightness);
     }
 
