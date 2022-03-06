@@ -1,0 +1,13 @@
+{
+    "key.boosted-brightness.next": "Nächste Helligkeitsstufe",
+    "key.boosted-brightness.raise": "Helligkeit erhöhen",
+    "key.boosted-brightness.lower": "Helligkeit senken",
+    "key.boosted-brightness.select1": "Helligkeitsstufe 1 auswählen",
+    "key.boosted-brightness.select2": "Helligkeitsstufe 2 auswählen",
+    "key.boosted-brightness.select3": "Helligkeitsstufe 3 auswählen",
+    "key.boosted-brightness.select4": "Helligkeitsstufe 4 auswählen",
+    "key.boosted-brightness.select5": "Helligkeitsstufe 5 auswählen",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "Helligkeit %s: %s%%",
+    "options.boosted-brightness.title": "Boosted Brightness Einstellungen"
+}
