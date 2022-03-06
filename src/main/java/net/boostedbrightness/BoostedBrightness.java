@@ -27,6 +27,7 @@ public class BoostedBrightness implements ClientModInitializer {
 
     public static double minBrightness = -1.0;
     public static double maxBrightness = 12.0;
+    public static double brightnessSliderInterval = 0.05;
     private static double step = 0.1;
 
     public static ArrayList<Double> brightnesses;

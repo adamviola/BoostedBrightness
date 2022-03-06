@@ -7,7 +7,7 @@
   ],
   "client": [
     "MixinDoubleOption",
-    "MixinMinecraftClient"
+    "MixinSliderControl"
   ],
   "injectors": {
     "defaultRequire": 1

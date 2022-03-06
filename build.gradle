@@ -14,6 +14,9 @@ repositories {
     maven {
         url "https://maven.terraformersmc.com/releases/"
     }
+	maven {
+		url = "https://api.modrinth.com/maven"
+	}
 }
 
 dependencies {
@@ -25,9 +28,12 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// ModMenu
-	modImplementation "com.terraformersmc:modmenu:2.0.2"
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	compileOnly 'com.google.code.findbugs:jsr305:+'
+    // Sodium
+	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
+
+    compileOnly 'com.google.code.findbugs:jsr305:+'
 }
 
 processResources {
