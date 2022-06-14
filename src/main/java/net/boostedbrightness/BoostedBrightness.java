@@ -10,7 +10,7 @@ import java.util.function.IntConsumer;
 import com.google.gson.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -92,7 +92,7 @@ public class BoostedBrightness implements ClientModInitializer {
 
     public static void setBrightnessIndex(int index) {
         brightnessIndex = index;
-        client.options.gamma = getBrightness();
+        client.options.getGamma().setValue(getBrightness());
     }
 
     public static double getBrightness() {
@@ -105,7 +105,7 @@ public class BoostedBrightness implements ClientModInitializer {
 
     public static void changeBrightness(double brightness) {
         brightnesses.set(getBrightnessIndex(), brightness);
-        client.options.gamma = getBrightness();
+        client.options.getGamma().setValue(getBrightness());
     } 
 
     public static void changeBrightness(int index, double brightness) {
@@ -190,7 +190,7 @@ public class BoostedBrightness implements ClientModInitializer {
 
     private void showOverlay(MinecraftClient client) {
         client.inGameHud.setOverlayMessage(
-            new TranslatableText(
+            Text.translatable(
                 "overlay.boosted-brightness.change",
                 new Object[]{
                     getBrightnessIndex() + 1,

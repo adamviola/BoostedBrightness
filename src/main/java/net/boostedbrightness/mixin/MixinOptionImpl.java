@@ -7,7 +7,7 @@ import me.jellysquid.mods.sodium.client.gui.options.binding.GenericBinding;
 import me.jellysquid.mods.sodium.client.gui.options.binding.OptionBinding;
 import me.jellysquid.mods.sodium.client.gui.options.control.Control;
 import me.jellysquid.mods.sodium.client.gui.options.storage.OptionStorage;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
@@ -37,7 +37,7 @@ public class MixinOptionImpl<S, T> {
                       boolean enabled,
                       CallbackInfo info) {
 
-        if (name instanceof TranslatableText translatable && translatable.getKey().equals("options.gamma")) {
+        if (name.getContent() instanceof TranslatableTextContent content && content.getKey().equals("options.gamma")) {
             this.binding = new GenericBinding<S, T>((opt, val) -> BoostedBrightness.changeBrightness((Integer) val * 0.01D), binding::getValue);
         }
     }

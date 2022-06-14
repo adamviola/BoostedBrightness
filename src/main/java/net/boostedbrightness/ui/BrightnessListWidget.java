@@ -13,7 +13,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget.BrightnessEntry> {
 
@@ -21,8 +21,8 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       super(client, i, j, k, l, m);
       this.setRenderSelection(true);
 
-      if (client.options.gamma != BoostedBrightness.getBrightness()) {
-         BoostedBrightness.changeBrightness(client.options.gamma);
+      if (client.options.getGamma().getValue() != BoostedBrightness.getBrightness()) {
+         BoostedBrightness.changeBrightness(client.options.getGamma().getValue());
       }
 
       for (int idx = 0; idx < BoostedBrightness.numBrightnesses(); idx++) {
@@ -117,10 +117,10 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
             widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.getBrightness(index))));
             
             if (index >= 2)
-               widgets.add(new ButtonWidget(width / 2 + 120 + 5, 0, 20, 20, new LiteralText("X"), (buttonWidget) -> { listWidget.removeBrightness(index); }));
+               widgets.add(new ButtonWidget(width / 2 + 120 + 5, 0, 20, 20, Text.literal("X"), (buttonWidget) -> { listWidget.removeBrightness(index); }));
          }
          else
-            widgets.add(new ButtonWidget(width / 2 - 120, 0, 240, 20, new LiteralText("+"), (buttonWidget) -> { listWidget.addBrightness(); }));
+            widgets.add(new ButtonWidget(width / 2 - 120, 0, 240, 20, Text.literal("+"), (buttonWidget) -> { listWidget.addBrightness(); }));
 
          return new BrightnessEntry(widgets, index, listWidget);
       }

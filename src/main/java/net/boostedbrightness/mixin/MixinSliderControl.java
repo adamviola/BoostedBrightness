@@ -4,7 +4,8 @@ import me.jellysquid.mods.sodium.client.gui.options.Option;
 import me.jellysquid.mods.sodium.client.gui.options.control.ControlValueFormatter;
 import me.jellysquid.mods.sodium.client.gui.options.control.SliderControl;
 import net.boostedbrightness.BoostedBrightness;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
+
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,7 +31,7 @@ public class MixinSliderControl {
 
     @Inject(at = @At("RETURN"), method = "<init>")
     private void init(Option<Integer> option, int min, int max, int interval, ControlValueFormatter mode, CallbackInfo info) {
-        if (option.getName() instanceof TranslatableText translatable && translatable.getKey().equals("options.gamma")) {
+        if (option.getName().getContent() instanceof TranslatableTextContent content && content.getKey().equals("options.gamma")) {
             this.min = (int) (BoostedBrightness.minBrightness * 100);
             this.max = (int) (BoostedBrightness.maxBrightness * 100);
             this.interval = (int) (BoostedBrightness.brightnessSliderInterval * 100);

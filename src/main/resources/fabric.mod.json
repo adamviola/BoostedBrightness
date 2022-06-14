@@ -31,13 +31,15 @@
       "environment": "client"
     }
   ],
+  
+  "accessWidener" : "boostedbrightness.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
-    "minecraft": ">=1.17"
+    "minecraft": ">=1.19"
   },
   "suggests": {
     "flamingo": "*"

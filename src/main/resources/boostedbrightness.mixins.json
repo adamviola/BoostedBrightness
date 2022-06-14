@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "MixinDoubleOption",
+    "MixinSimpleOption",
     "MixinMinecraftClient",
     "MixinSliderControl",
     "MixinOptionImpl"

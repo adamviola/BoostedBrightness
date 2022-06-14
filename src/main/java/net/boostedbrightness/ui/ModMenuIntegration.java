@@ -6,11 +6,11 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 
 public class ModMenuIntegration implements ModMenuApi {
     @Override
@@ -22,7 +22,7 @@ public class ModMenuIntegration implements ModMenuApi {
         private BrightnessListWidget list;
 
         public ModMenuOptionsScreen(Screen parent) {
-            super(parent, MinecraftClient.getInstance().options, new TranslatableText("options.boosted-brightness.title"));
+            super(parent, MinecraftClient.getInstance().options, Text.translatable("options.boosted-brightness.title"));
         }
     
         protected void init() {

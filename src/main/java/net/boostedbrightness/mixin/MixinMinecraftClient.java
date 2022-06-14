@@ -1,7 +1,6 @@
 package net.boostedbrightness.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.option.GameOptions;
