@@ -10,7 +10,8 @@
   ],
   "contact": {
     "homepage": "https://github.com/adamviola/BoostedBrightness",
-    "sources": "https://github.com/adamviola/BoostedBrightness"
+    "sources": "https://github.com/adamviola/BoostedBrightness",
+    "issues": "https://github.com/adamviola/BoostedBrightness/issues"
   },
 
   "license": "MIT",
@@ -35,11 +36,11 @@
   "accessWidener" : "boostedbrightness.accesswidener",
 
   "depends": {
-    "fabricloader": ">=0.7.4",
+    "fabricloader": ">=0.14.11",
     "fabric": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
-    "minecraft": ">=1.19"
+    "minecraft": ">=1.19.3"
   },
   "suggests": {
     "flamingo": "*"

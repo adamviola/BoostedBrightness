@@ -117,10 +117,14 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
             widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.getBrightness(index))));
             
             if (index >= 2)
-               widgets.add(new ButtonWidget(width / 2 + 120 + 5, 0, 20, 20, Text.literal("X"), (buttonWidget) -> { listWidget.removeBrightness(index); }));
+               widgets.add(ButtonWidget.builder(Text.literal("X"), (buttonWidget) -> {
+                  listWidget.removeBrightness(index);
+               }).dimensions(width / 2 + 120 + 5, 0, 20, 20).build());
          }
          else
-            widgets.add(new ButtonWidget(width / 2 - 120, 0, 240, 20, Text.literal("+"), (buttonWidget) -> { listWidget.addBrightness(); }));
+            widgets.add(ButtonWidget.builder(Text.literal("+"), (buttonWidget) -> {
+               listWidget.addBrightness();
+            }).dimensions(width / 2 - 120, 0, 240, 20).build());
 
          return new BrightnessEntry(widgets, index, listWidget);
       }
@@ -133,7 +137,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
 
       public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {         
          this.buttons.forEach((button) -> {
-            button.y = y;
+            button.setY(y);
             button.render(matrices, mouseX, mouseY, tickDelta);
          });
 
