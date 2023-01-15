@@ -36,19 +36,22 @@ public class MixinSimpleOption {
     @Shadow
     @Final
     @Mutable
+    private
     Callbacks<Double> callbacks;
 
     @Shadow
     @Final
     @Mutable
+    private
     Codec<Double> codec;
 
     @Shadow
     @Final
     @Mutable
+    private
     Consumer<Double> changeCallback;
 
-    @Inject(at = @At("RETURN"), method = "<init>")
+    @Inject(at = @At("RETURN"), method = "<init>*")
     private void init(CallbackInfo info) throws Exception {
         TextContent content = this.text.getContent();
         if (!(content instanceof TranslatableTextContent))

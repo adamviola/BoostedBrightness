@@ -30,9 +30,9 @@ public class ModMenuIntegration implements ModMenuApi {
             this.list = new BrightnessListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
             this.addSelectableChild(this.list);
 
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 120, this.height - 27, 240, 20, ScreenTexts.DONE, (button) -> {
+            this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
                 this.client.setScreen(this.parent);
-            }));
+            }).size(240, 20).position(this.width / 2 - 120, this.height - 27).build());
         }
     
         public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
