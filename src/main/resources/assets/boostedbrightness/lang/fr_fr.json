@@ -1,0 +1,13 @@
+{
+    "key.boosted-brightness.next": "Passer à la luminosité suivante",
+    "key.boosted-brightness.raise": "Augmenter la luminosité",
+    "key.boosted-brightness.lower": "Baisser la luminosité",
+    "key.boosted-brightness.select1": "Sélectionner la luminosité 1",
+    "key.boosted-brightness.select2": "Sélectionner la luminosité 2",
+    "key.boosted-brightness.select3": "Sélectionner la luminosité 3",
+    "key.boosted-brightness.select4": "Sélectionner la luminosité 4",
+    "key.boosted-brightness.select5": "Sélectionner la luminosité 5",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "Luminosité %s: %s%%",
+    "options.boosted-brightness.title": "Options de Boosted Brightness"
+}
