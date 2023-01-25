@@ -1,0 +1,13 @@
+{
+    "key.boosted-brightness.next": "Wybierz Następną Jasność",
+    "key.boosted-brightness.raise": "Zwiększ Jasność",
+    "key.boosted-brightness.lower": "Zmniejsz Jasność",
+    "key.boosted-brightness.select1": "Wybierz Jasność nr 1",
+    "key.boosted-brightness.select2": "Wybierz Jasność nr 2",
+    "key.boosted-brightness.select3": "Wybierz Jasność nr 3",
+    "key.boosted-brightness.select4": "Wybierz Jasność nr 4",
+    "key.boosted-brightness.select5": "Wybierz Jasność nr 5",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "Jasność %s: %s%%",
+    "options.boosted-brightness.title": "Opcje Boosted Brightness"
+}
