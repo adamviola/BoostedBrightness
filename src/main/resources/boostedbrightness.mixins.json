@@ -9,7 +9,8 @@
     "MixinSimpleOption",
     "MixinMinecraftClient",
     "MixinSliderControl",
-    "MixinOptionImpl"
+    "MixinOptionImpl",
+    "MixinLightmapTextureManager"
   ],
   "injectors": {
     "defaultRequire": 1
