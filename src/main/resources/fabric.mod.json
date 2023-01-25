@@ -10,7 +10,8 @@
   ],
   "contact": {
     "homepage": "https://github.com/adamviola/BoostedBrightness",
-    "sources": "https://github.com/adamviola/BoostedBrightness"
+    "sources": "https://github.com/adamviola/BoostedBrightness",
+    "issues": "https://github.com/adamviola/BoostedBrightness/issues"
   },
 
   "license": "MIT",
