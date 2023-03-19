@@ -1,0 +1,13 @@
+{
+    "key.boosted-brightness.next": "選擇下一個亮度",
+    "key.boosted-brightness.raise": "提高亮度",
+    "key.boosted-brightness.lower": "降低亮度",
+    "key.boosted-brightness.select1": "選擇亮度 1",
+    "key.boosted-brightness.select2": "選擇亮度 2",
+    "key.boosted-brightness.select3": "選擇亮度 3",
+    "key.boosted-brightness.select4": "選擇亮度 4",
+    "key.boosted-brightness.select5": "選擇亮度 5",
+    "category.boosted-brightness.title": "Boosted Brightness",
+    "overlay.boosted-brightness.change": "亮度 %s: %s%%",
+    "options.boosted-brightness.title": "Boosted Brightness 選項"
+}
