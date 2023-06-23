@@ -7,12 +7,12 @@ import java.util.Optional;
 
 import net.boostedbrightness.BoostedBrightness;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget.BrightnessEntry> {
@@ -45,7 +45,7 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
       if (size == BoostedBrightness.MAX_BRIGHTNESSES) {
          entries.remove(BoostedBrightness.MAX_BRIGHTNESSES);
       }
-      
+
    }
 
    public void removeBrightness(int index) {
@@ -79,11 +79,11 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
    public Optional<ClickableWidget> getHoveredButton(double mouseX, double mouseY) {
       Iterator<BrightnessEntry> var5 = this.children().iterator();
 
-      while(var5.hasNext()) {
+      while (var5.hasNext()) {
          BrightnessListWidget.BrightnessEntry buttonEntry = var5.next();
          Iterator<ClickableWidget> var7 = buttonEntry.buttons.iterator();
 
-         while(var7.hasNext()) {
+         while (var7.hasNext()) {
             ClickableWidget abstractButtonWidget = var7.next();
             if (abstractButtonWidget.isMouseOver(mouseX, mouseY)) {
                return Optional.of(abstractButtonWidget);
@@ -112,16 +112,16 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
 
       public static BrightnessListWidget.BrightnessEntry create(int index, int width, BrightnessListWidget listWidget) {
          ArrayList<ClickableWidget> widgets = new ArrayList<>();
-         
+
          if (index >= 0) {
-            widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20, BrightnessSliderWidget.sliderValue(BoostedBrightness.getBrightness(index))));
-            
+            widgets.add(new BrightnessSliderWidget(index, width / 2 - 120, 0, 240, 20,
+                  BrightnessSliderWidget.sliderValue(BoostedBrightness.getBrightness(index))));
+
             if (index >= 2)
                widgets.add(ButtonWidget.builder(Text.literal("X"), (button) -> {
                   listWidget.removeBrightness(index);
                }).size(20, 20).position(width / 2 + 120 + 5, 0).build());
-         }
-         else
+         } else
             widgets.add(ButtonWidget.builder(Text.literal("+"), (button) -> {
                listWidget.addBrightness();
             }).size(240, 20).position(width / 2 - 120, 0).build());
@@ -131,18 +131,21 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
 
       public void updateValue() {
          for (ClickableWidget button : buttons)
-            if (button instanceof BrightnessSliderWidget) 
+            if (button instanceof BrightnessSliderWidget)
                ((BrightnessSliderWidget) button).updateValue();
       }
 
-      public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {         
+      @Override
+      public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX,
+            int mouseY, boolean hovered, float tickDelta) {
          this.buttons.forEach((button) -> {
             button.setY(y);
-            button.render(matrices, mouseX, mouseY, tickDelta);
+            button.render(context, mouseX, mouseY, tickDelta);
          });
 
          if (this.index >= 0) {
-            listWidget.client.textRenderer.draw(matrices, String.valueOf(this.index + 1), listWidget.width / 2 - 150 + 13, y + entryHeight / 3, 16777215);
+            context.drawTextWithShadow(listWidget.client.textRenderer, String.valueOf(this.index + 1),
+                  listWidget.width / 2 - 150 + 13, y + entryHeight / 3, 16777215);
          }
       }
 
