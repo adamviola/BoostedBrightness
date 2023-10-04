@@ -32,7 +32,7 @@
   "accessWidener": "boostedbrightness.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
+    "fabric-api": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
     "minecraft": ">=1.20.2"
