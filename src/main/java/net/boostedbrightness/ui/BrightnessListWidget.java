@@ -19,7 +19,6 @@ public class BrightnessListWidget extends ElementListWidget<BrightnessListWidget
 
    public BrightnessListWidget(MinecraftClient client, int i, int j, int k, int l, int m) {
       super(client, i, j, k, l, m);
-      this.setRenderSelection(true);
 
       if (client.options.getGamma().getValue() != BoostedBrightness.getBrightness()) {
          BoostedBrightness.changeBrightness(client.options.getGamma().getValue());

@@ -2,19 +2,9 @@
   "schemaVersion": 1,
   "id": "boostedbrightness",
   "version": "${version}",
-  "name": "Boosted Brightness",
-  "description": "Allows you to set your brightness beyond default levels.",
-  "authors": [
-    "adamviola"
-  ],
-  "contact": {
-    "homepage": "https://github.com/adamviola/BoostedBrightness",
-    "sources": "https://github.com/adamviola/BoostedBrightness",
-    "issues": "https://github.com/adamviola/BoostedBrightness/issues"
-  },
-  "license": "MIT",
-  "icon": "assets/boostedbrightness/icon.png",
   "environment": "client",
+  "accessWidener": "boostedbrightness.accesswidener",
+
   "entrypoints": {
     "client": [
       "net.boostedbrightness.BoostedBrightness"
@@ -29,15 +19,28 @@
       "environment": "client"
     }
   ],
-  "accessWidener": "boostedbrightness.accesswidener",
+
   "depends": {
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "fabric-lifecycle-events-v1": "*",
-    "fabric-key-binding-api-v1": "*",
-    "minecraft": ">=1.20"
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}"
   },
-  "suggests": {
-    "flamingo": "*"
-  }
+  "recommends": {
+    "modmenu": "${modmenu_version}"
+  },
+
+  "name": "Boosted Brightness",
+  "description": "Allows you to set your brightness beyond default levels.",
+  "contact": {
+    "homepage": "https://github.com/adamviola/BoostedBrightness",
+    "sources": "https://github.com/adamviola/BoostedBrightness",
+    "issues": "https://github.com/adamviola/BoostedBrightness/issues"
+  },
+  "authors": [
+    "adamviola"
+  ],
+  "contributors": [
+  ],
+  "license": "MIT",
+  "icon": "assets/boostedbrightness/icon.png"
 }

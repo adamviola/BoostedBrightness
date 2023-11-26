@@ -15,7 +15,7 @@ import net.minecraft.text.Text;
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> new ModMenuOptionsScreen(parent);
+        return ModMenuOptionsScreen::new;
     }
 
     public class ModMenuOptionsScreen extends GameOptionsScreen {
@@ -29,16 +29,18 @@ public class ModMenuIntegration implements ModMenuApi {
             this.list = new BrightnessListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
             this.addSelectableChild(this.list);
 
-            this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
-                this.client.setScreen(this.parent);
-            }).size(240, 20).position(this.width / 2 - 120, this.height - 27).build());
+            this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> this.close())
+                    .size(240, 20).position(this.width / 2 - 120, this.height - 27).build());
         }
 
         public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-            this.renderBackground(context);
+            super.render(context, mouseX, mouseY, delta);
             this.list.render(context, mouseX, mouseY, delta);
             context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xFFFFFF);
-            super.render(context, mouseX, mouseY, delta);
+        }
+
+        public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+            this.renderBackgroundTexture(context);
         }
 
         public void removed() {

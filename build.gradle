@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.2-SNAPSHOT'
+	id 'fabric-loom' version '1.3-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -26,7 +26,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	//Fabric api
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	// ModMenu
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
@@ -37,15 +37,17 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+	def expandProps = [
+			"version": version,
+			"maven_group": project.group,
+			"minecraft_version": minecraft_version,
+			"modmenu_version": modmenu_version
+	]
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+	filesMatching(['fabric.mod.json']) {
+		expand expandProps
 	}
-
-	// from(sourceSets.main.resources.srcDirs) {
-	// 	exclude "fabric.mod.json"
-	// }
+	inputs.properties(expandProps)
 }
 
 loom {
