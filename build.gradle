@@ -41,6 +41,7 @@ processResources {
 			"version": version,
 			"maven_group": project.group,
 			"minecraft_version": minecraft_version,
+			"min_minecraft_version": min_minecraft_version,
 			"modmenu_version": modmenu_version
 	]
 

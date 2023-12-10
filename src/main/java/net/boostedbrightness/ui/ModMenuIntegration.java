@@ -26,7 +26,7 @@ public class ModMenuIntegration implements ModMenuApi {
         }
 
         protected void init() {
-            this.list = new BrightnessListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
+            this.list = new BrightnessListWidget(this.client, this.width, this.height - 64, 32, 25);
             this.addSelectableChild(this.list);
 
             this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> this.close())

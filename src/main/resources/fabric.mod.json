@@ -23,7 +23,7 @@
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric-api": "*",
-    "minecraft": "~${minecraft_version}"
+    "minecraft": "~${min_minecraft_version}"
   },
   "recommends": {
     "modmenu": "${modmenu_version}"
